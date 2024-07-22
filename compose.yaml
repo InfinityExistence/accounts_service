@@ -1,0 +1,19 @@
+name: accounts
+volumes:
+  pg_data:
+services:
+  pgdb:
+    restart: always
+    image: postgres
+    env_file: pgdb.env
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+  service:
+    restart: always
+    build:
+      dockerfile: Dockerfile
+    ports:
+      - '3001:3001'
+    depends_on:
+      - pgdb
+    env_file: accounts_service.env
